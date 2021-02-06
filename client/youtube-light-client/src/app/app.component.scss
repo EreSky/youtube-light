@@ -1,0 +1,17 @@
+.main-container {
+  display: flex;
+  justify-content: space-between; //todo: around?
+}
+
+.controller {
+  margin-top: 50px;
+  margin-left: 50px;
+  flex-grow: 0.25;
+  width: 40%;
+}
+
+.player {
+  margin-right: 50px;
+  margin-top: 50px;
+
+}

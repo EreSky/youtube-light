@@ -7,3 +7,8 @@ export const parseYoutubeLink = (link: string) => {
 
   return videoId;
 }
+
+export const videoDuration = (duration: number) : string => {
+  // @ts-ignore
+  return (new Date(duration * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+}

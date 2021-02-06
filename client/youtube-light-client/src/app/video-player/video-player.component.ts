@@ -7,36 +7,42 @@ import {VideoDto} from '../dto/video-dto';
   styleUrls: ['./video-player.component.scss']
 })
 export class VideoPlayerComponent implements OnInit, OnChanges, DoCheck {
+  public playerHeight = 500;
+  public playerWidth = 500;
   private player: YT.Player | undefined;
-  public id: string = 'qDuKsiwS5xw';
   public _video: VideoDto | undefined;
+  public _videoId: string = "";
 
   @Input() set video(video: VideoDto | undefined) {
     this._video = video;
+    if (this._video) {
+      this._videoId = this._video.videoId;
+      if (this.player) {
+        this.player.loadVideoById(this._videoId);
+        this.player.playVideo();
+      }
+    }
   }
 
   @Output() videoEnded: EventEmitter<void> = new EventEmitter()
 
-  constructor(zone: NgZone) {
-    // let service: YoutubePlayerService = new YoutubePlayerService(zone);
+  constructor() {
   }
 
   ngOnInit(): void {
-    // throw new Error("Method not implemented.");
   }
 
   savePlayer(player: YT.Player) {
     this.player = player;
     console.log('player instance', player);
     this.player.playVideo();
-
   }
 
   onStateChange(event: any) {
     console.log('player state', event.data);
-    if (this.player && this.player.getPlayerState() === -1) {
-      this.player.playVideo();
-    }
+    // if (this.player && this.player.getPlayerState() === -1) {
+    //   this.player.playVideo();
+    // }
 
     if (event.data === 0) {
       this.videoEnded.emit();
@@ -46,19 +52,19 @@ export class VideoPlayerComponent implements OnInit, OnChanges, DoCheck {
 
   /******************** maybe ***********************/
   ngDoCheck() {
-    if (this.player && this.player.getPlayerState() === -1) {
-      this.player.playVideo();
-    }
+    // if (this.player && this.player.getPlayerState() === -1) {
+    //   this.player.playVideo();
+    // }
   }
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    for (const propName in changes) {
-      const chng = changes[propName];
-      const cur = JSON.stringify(chng.currentValue);
-      const prev = JSON.stringify(chng.previousValue);
-
-    }
+    // for (const propName in changes) {
+    //   const chng = changes[propName];
+    //   const cur = JSON.stringify(chng.currentValue);
+    //   const prev = JSON.stringify(chng.previousValue);
+    //
+    // }
   }
 
   // ngDoCheck() {

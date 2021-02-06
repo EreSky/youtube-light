@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {VideoApiService} from '../api/video-api.service';
 import {VideoDto} from '../dto/video-dto';
 import {parseYoutubeLink} from '../utils/utils';
@@ -8,9 +8,11 @@ import {parseYoutubeLink} from '../utils/utils';
   templateUrl: './video-controller.component.html',
   styleUrls: ['./video-controller.component.scss']
 })
-export class VideoControllerComponent /*implements OnInit*/ {
+export class VideoControllerComponent {
   @Input() videos = new Array<VideoDto>();
   @Output() videoSubmitted: EventEmitter<string> = new EventEmitter<string>()
+
+  @ViewChild('input') inputRef: ElementRef | undefined;
 
   constructor(/*private videoApiService: VideoApiService*/) {
   }
@@ -19,8 +21,22 @@ export class VideoControllerComponent /*implements OnInit*/ {
     // @ts-ignore
     const link = event.target.value;
     const videoId = parseYoutubeLink(link);
+    this.inputRef ? this.inputRef.nativeElement.value = '' : undefined;
 
+    console.log('onVideoSubmit');
     this.videoSubmitted.emit(videoId);
+  }
+
+
+  onAddVideoClick($event: MouseEvent) {
+    if (this.inputRef) {
+      const link = this.inputRef.nativeElement.value;
+      const videoId = parseYoutubeLink(link);
+      this.inputRef.nativeElement.value = '';
+
+      console.log('onAddVideoClick');
+      this.videoSubmitted.emit(videoId);
+    }
   }
 
   // ngOnInit(): void {
@@ -41,4 +57,5 @@ export class VideoControllerComponent /*implements OnInit*/ {
   //       () => console.log('submitted successfully'),
   //       () => console.log('failed to submit'));
   // }
+
 }

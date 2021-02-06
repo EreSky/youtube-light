@@ -1,7 +1,16 @@
-<p>video-controller works!</p>
-<input (change)="onVideoSubmit($event)">
-<ul>
-  <li *ngFor="let video of videos; index as i">
-    {{ i + 1 }}. {{ video.videoId }}
-  </li>
-</ul>
+<div>
+  <div class="input-line">
+    <input #input
+           class="input"
+           placeholder="Add link"
+           (keyup.enter)="onVideoSubmit($event)">
+    <button class="btn btn-primary"
+            (click)="onAddVideoClick($event)">Add</button>
+  </div>
+
+  <div class="list">
+    <div class="list-item" *ngFor="let video of videos; index as i">
+      {{ i + 1 }}. {{ video.videoId }}
+    </div>
+  </div>
+</div>

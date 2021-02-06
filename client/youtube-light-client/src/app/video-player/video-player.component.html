@@ -1,7 +1,10 @@
-<p>video-player works!</p>
-<youtube-player
-  *ngIf="_video"
-  [videoId]="_video.videoId"
-  (ready)="savePlayer($event)"
-  (change)="onStateChange($event)"
-></youtube-player>
+<div>
+  <youtube-player
+    *ngIf="_video"
+    [height]="playerHeight"
+    [width]="playerWidth"
+    [videoId]="_videoId"
+    (ready)="savePlayer($event)"
+    (change)="onStateChange($event)"
+  ></youtube-player>
+</div>

@@ -1,6 +1,12 @@
-<app-video-controller [videos]="allVideos"
-                      (videoSubmitted)="onVideoSubmitted($event)">
-</app-video-controller>
-<app-video-player [video]="allVideos.length > 0 ? allVideos[0] : undefined"
-                  (videoEnded)="onVideoEnded($event)" >
-</app-video-player>
+<div class="container-fluid main-container">
+  <div class="controller">
+    <app-video-controller [videos]="allVideosModels"
+                          (videoSubmitted)="onVideoSubmitted($event)">
+    </app-video-controller>
+  </div>
+  <div class="player">
+    <app-video-player [video]="allVideosModels.length > 0 ? allVideosModels[0] : undefined"
+                      (videoEnded)="onVideoEnded($event)">
+    </app-video-player>
+  </div>
+</div>
