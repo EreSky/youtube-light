@@ -31,7 +31,12 @@ export class VideoService {
     public async addVideo(videoId: string): Promise<VideoDto> {
         const videoMetadata = await YoutubeApi.instance().getVideoMetadata(videoId);
         const newVideo = this.videoDao.addVideo(videoId, videoMetadata.title, videoMetadata.duration);
-        return <VideoDto>{videoId: newVideo.videoId, sequenceId: newVideo.sequenceId};
+        return <VideoDto>{
+            videoId: newVideo.videoId,
+            sequenceId: newVideo.sequenceId,
+            title: newVideo.title,
+            duration: newVideo.duration
+        };
     }
 }
 
