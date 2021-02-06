@@ -19,9 +19,11 @@
     "@angular/platform-browser": "~11.1.1",
     "@angular/platform-browser-dynamic": "~11.1.1",
     "@angular/router": "~11.1.1",
+    "@types/youtube": "0.0.32",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.3"
+    "zone.js": "~0.11.3",
+    "ngx-youtube-player": "^9.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1101.2",
