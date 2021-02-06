@@ -8,23 +8,29 @@ import {VideoDto} from '../dto/video-dto';
   providedIn: 'root'
 })
 export class VideoApiService implements OnDestroy {
-  private stopPolling = new Subject();
-  private videosSubject = new BehaviorSubject<VideoDto | undefined>(undefined);
+  private allVideos = new Array<VideoDto>();
+  private lastSequenceId = 0;
 
-  public get videos(): Observable<VideoDto | undefined> {
+  private stopPolling = new Subject();
+  private videosSubject = new BehaviorSubject<VideoDto[]>(this.allVideos);
+
+  public get videos(): Observable<VideoDto[]> {
     return this.videosSubject.asObservable();
   }
 
   constructor(private http: HttpClient) {
     timer(1, 3000)
       .pipe(
-        // const length = count(),
-        switchMap(() => http.get<VideoDto[]>(`http://localhost:3000/api/videos?sequenceId=${this.videosSubject.value ?
-          this.videosSubject.value.sequenceId : 0}`)),
+        switchMap(() => http.get<VideoDto[]>(`http://localhost:3000/api/videos?sequenceId=${this.lastSequenceId}`)),
         retry(),
-        // tap(console.log),
-        tap(data => {
-          data.forEach(item => this.videosSubject.next(item))
+        tap(videoDtoCollection => {
+          videoDtoCollection.forEach(videoDto => {
+            this.allVideos.push(videoDto);
+            this.lastSequenceId = videoDto.sequenceId;
+          })
+          if (this.allVideos.length > 0 && videoDtoCollection.length > 0) {
+            this.videosSubject.next(this.allVideos);
+          }
         }),
         share(),
         takeUntil(this.stopPolling)
@@ -38,19 +44,18 @@ export class VideoApiService implements OnDestroy {
     return response
       .pipe(
         catchError(err => {
-         console.log(`error posting new video: `, err);
-         return throwError(err);
+          console.log(`error posting new video: `, err);
+          return throwError(err);
         })
       );
   }
 
   public removeVideo() {
-    // this.videosSubject.
+    this.allVideos.shift();
+    this.videosSubject.next(this.allVideos)
   }
 
   ngOnDestroy() {
     this.stopPolling.next();
   }
-
-
 }

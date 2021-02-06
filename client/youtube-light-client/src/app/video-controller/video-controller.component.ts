@@ -1,7 +1,6 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {VideoApiService} from '../api/video-api.service';
-import {VideoDto} from '../dto/video-dto';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {parseYoutubeLink} from '../utils/utils';
+import {VideoModel} from '../models/video-model';
 
 @Component({
   selector: 'app-video-controller',
@@ -9,53 +8,37 @@ import {parseYoutubeLink} from '../utils/utils';
   styleUrls: ['./video-controller.component.scss']
 })
 export class VideoControllerComponent {
-  @Input() videos = new Array<VideoDto>();
+  @Input() videos = new Array<VideoModel>();
   @Output() videoSubmitted: EventEmitter<string> = new EventEmitter<string>()
 
   @ViewChild('input') inputRef: ElementRef | undefined;
 
-  constructor(/*private videoApiService: VideoApiService*/) {
+  constructor() {
   }
 
   public onVideoSubmit(event: Event) {
     // @ts-ignore
     const link = event.target.value;
-    const videoId = parseYoutubeLink(link);
-    this.inputRef ? this.inputRef.nativeElement.value = '' : undefined;
-
-    console.log('onVideoSubmit');
-    this.videoSubmitted.emit(videoId);
+    this.trySubmit(link);
   }
 
-
-  onAddVideoClick($event: MouseEvent) {
+  public onAddVideoClick($event: MouseEvent) {
     if (this.inputRef) {
       const link = this.inputRef.nativeElement.value;
-      const videoId = parseYoutubeLink(link);
-      this.inputRef.nativeElement.value = '';
-
-      console.log('onAddVideoClick');
-      this.videoSubmitted.emit(videoId);
+      this.trySubmit(link);
     }
   }
 
-  // ngOnInit(): void {
-  //   this.videoApiService.videos.subscribe(value => {
-  //     if (value) {
-  //       this.allVideos.push(value);
-  //     }
-  //   });
-  // }
+  private trySubmit(link: string) {
+    let videoId;
+    try {
+      videoId = parseYoutubeLink(link);
+    } catch (e) {
+      return;
+    } finally {
+      this.inputRef ? this.inputRef.nativeElement.value = '' : undefined;
+    }
 
-  // public onVideoSubmit(event: Event) {
-  //   // @ts-ignore
-  //   const link = event.target.value;
-  //   const videoId = parseYoutubeLink(link);
-  //
-  //   this.videoApiService.postNewVideo(videoId)
-  //     .subscribe(
-  //       () => console.log('submitted successfully'),
-  //       () => console.log('failed to submit'));
-  // }
-
+    this.videoSubmitted.emit(videoId);
+  }
 }
