@@ -1,5 +1,4 @@
 import {Collection} from 'lokijs';
-import {VideoDto} from "../models/video-dto";
 
 const loki = require('lokijs');
 
@@ -10,7 +9,7 @@ export class VideoDao {
 
     constructor() {
         this.cacheCollection = VideoDao.db.getCollection(VideoDao.collectionName);
-        this.cacheCollection.on('insert', (video) => { video.sequenceId = video.$loki });//todo: may have to ++ by myself
+        this.cacheCollection.on('insert', (video) => { video.sequenceId = video.$loki });
     }
 
     static init() {
@@ -31,8 +30,8 @@ export class VideoDao {
         return this.cacheCollection.find({'sequenceId': {'$gt': sequenceId}});
     }
 
-    public addVideo(videoId: string): any {
-        return this.cacheCollection.insert({videoId});
+    public addVideo(videoId: string, title: string, duration: number): any {
+        return this.cacheCollection.insert({videoId, title, duration});
     }
 }
 
