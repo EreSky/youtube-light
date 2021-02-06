@@ -1,0 +1,6 @@
+<p>video-controller works!</p>
+<ul>
+  <li *ngFor="let video of allVideos| async; index as i">
+    {{ i + 1 }}. {{ video.videoId }}
+  </li>
+</ul>
