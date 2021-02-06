@@ -1,6 +1,7 @@
 <p>video-controller works!</p>
+<input (change)="onVideoSubmit($event)">
 <ul>
-  <li *ngFor="let video of allVideos| async; index as i">
+  <li *ngFor="let video of videos; index as i">
     {{ i + 1 }}. {{ video.videoId }}
   </li>
 </ul>

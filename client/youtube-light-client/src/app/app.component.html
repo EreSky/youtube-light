@@ -1,6 +1,6 @@
-<!--<youtube-player-->
-<!--  [videoId]="id"-->
-<!--  (ready)="savePlayer($event)"-->
-<!--  (change)="onStateChange($event)"-->
-<!--&gt;</youtube-player>-->
-<app-video-controller></app-video-controller>
+<app-video-controller [videos]="allVideos"
+                      (videoSubmitted)="onVideoSubmitted($event)">
+</app-video-controller>
+<app-video-player [video]="allVideos.length > 0 ? allVideos[0] : undefined"
+                  (videoEnded)="onVideoEnded($event)" >
+</app-video-player>
