@@ -9,8 +9,9 @@
   </div>
 
   <div class="list">
-    <div class="list-item" *ngFor="let video of videos; index as i">
-      {{ video.title }}  {{ video.duration }}
+    <div class="list-item" *ngFor="let video of videos">
+      <div>{{ video.title }}</div>
+      <div>{{ video.duration }}</div>
     </div>
   </div>
 </div>
