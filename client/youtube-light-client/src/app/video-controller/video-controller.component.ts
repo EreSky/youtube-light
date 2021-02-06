@@ -16,13 +16,14 @@ export class VideoControllerComponent {
   constructor() {
   }
 
-  public onVideoSubmit(event: Event) {
-    // @ts-ignore
-    const link = event.target.value;
-    this.trySubmit(link);
-  }
+  // public onVideoSubmit(event: Event) {
+  //   if (event.target) {
+  //     const link = event.target.value;
+  //     this.trySubmit(link);
+  //   }
+  // }
 
-  public onAddVideoClick($event: MouseEvent) {
+  public onVideoSubmit($event: Event) {
     if (this.inputRef) {
       const link = this.inputRef.nativeElement.value;
       this.trySubmit(link);

@@ -11,10 +11,9 @@ export const parseYoutubeLink = (link: string) => {
     console.log('failed to parse link: ', e)
     throw new Error(e);
   }
-
 }
 
 export const videoDuration = (duration: number) : string => {
-  // @ts-ignore
-  return (new Date(duration * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+  const match = (new Date(duration * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/);
+  return match && match.length > 0 ? match[0]: '';
 }
