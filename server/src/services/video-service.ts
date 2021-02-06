@@ -1,5 +1,5 @@
 import {VideoDto} from "../models/video-dto";
-import {VideoDao} from "../cache/video-dao";
+import {VideoDao} from "../dao/video-dao";
 import {YoutubeApi} from '../api/youtube-api';
 
 export class VideoService {
